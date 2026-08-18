@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Video Downloader</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+
+            --background: #080a0f;
+
+            --card: rgba(
+                18,
+                21,
+                29,
+                0.90
+            );
+
+            --card-secondary: #151821;
+
+            --border: #303542;
+
+            --text: #ffffff;
+
+            --muted: #8d94a5;
+
+            --primary: #6d78ff;
+
+            --primary-two: #9b5cff;
+
+            --error: #ff7373;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color:
+                var(--text);
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 0%,
+                    rgba(
+                        94,
+                        84,
+                        255,
+                        .23
+                    ),
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(
+                        161,
+                        71,
+                        255,
+                        .16
+                    ),
+                    transparent 32%
+                ),
+
+                var(--background);
+
+        }
+
+
+        button,
+        input,
+        select {
+
+            font-family: inherit;
+
+        }
+
+
+        .page {
+
+            min-height: 100vh;
+
+            padding:
+                55px
+                20px
+                100px;
+
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            margin: auto;
+
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 34px;
+
+        }
+
+
+        .badge {
+
+            display: inline-flex;
+
+            padding:
+                7px
+                13px;
+
+            border-radius: 100px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .09
+                );
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .035
+                );
+
+            color:
+                #9fa5b5;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 43px;
+
+            letter-spacing: -1.8px;
+
+        }
+
+
+        .header p {
+
+            margin:
+                12px
+                auto
+                0;
+
+            max-width: 570px;
+
+            color:
+                var(--muted);
+
+            line-height: 1.6;
+
+        }
+
+
+        /* ==================================================
+           CARD
+        ================================================== */
+
+        .card {
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .075
+                );
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            box-shadow:
+                0
+                35px
+                100px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .50
+                );
+
+            backdrop-filter:
+                blur(18px);
+
+        }
+
+
+        /* ==================================================
+           URL
+        ================================================== */
+
+        .url-form {
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+
+        .url-input {
+
+            flex: 1;
+
+            height: 57px;
+
+            padding:
+                0
+                18px;
+
+            color:
+                white;
+
+            font-size: 15px;
+
+            background:
+                var(--card-secondary);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 14px;
+
+            outline: none;
+
+            transition: .2s;
+
+        }
+
+
+        .url-input:focus {
+
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0
+                0
+                0
+                4px
+                rgba(
+                    109,
+                    120,
+                    255,
+                    .10
+                );
+
+        }
+
+
+        .button-primary {
+
+            border: 0;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-two)
+                );
+
+            color: white;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform
+                .2s,
+                box-shadow
+                .2s;
+
+        }
+
+
+        .analyse-button {
+
+            min-width: 125px;
+
+            height: 57px;
+
+            padding:
+                0
+                24px;
+
+        }
+
+
+        .button-primary:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0
+                12px
+                30px
+                rgba(
+                    109,
+                    120,
+                    255,
+                    .25
+                );
+
+        }
+
+
+        /* ==================================================
+           ERROR
+        ================================================== */
+
+        .error {
+
+            margin-top: 18px;
+
+            padding:
+                14px
+                16px;
+
+            border-radius: 12px;
+
+            color:
+                #ff9999;
+
+            background:
+                rgba(
+                    255,
+                    70,
+                    70,
+                    .10
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    70,
+                    70,
+                    .20
+                );
+
+            line-height: 1.5;
+
+        }
+
+
+        /* ==================================================
+           VIDEO
+        ================================================== */
+
+        .result {
+
+            animation:
+                appear
+                .35s
+                ease;
+
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(10px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .video {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(
+                    260px,
+                    330px
+                )
+                1fr;
+
+            gap: 25px;
+
+            align-items: center;
+
+            margin-top: 30px;
+
+        }
+
+
+        .thumbnail {
+
+            width: 100%;
+
+            aspect-ratio:
+                16 / 9;
+
+            object-fit: cover;
+
+            border-radius: 16px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .08
+                );
+
+        }
+
+
+        .video-title {
+
+            margin:
+                0
+                0
+                16px;
+
+            font-size: 22px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .meta {
+
+            margin-top: 9px;
+
+            color:
+                var(--muted);
+
+            font-size: 14px;
+
+        }
+
+
+        .meta strong {
+
+            color:
+                #d3d5dc;
+
+        }
+
+
+        .divider {
+
+            height: 1px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .07
+                );
+
+            margin:
+                30px
+                0;
+
+        }
+
+
+        /* ==================================================
+           FORMAT
+        ================================================== */
+
+        .section-title {
+
+            margin-bottom: 16px;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+        }
+
+
+        .format-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 13px;
+
+        }
+
+
+        .format-option {
+
+            position: relative;
+
+        }
+
+
+        .format-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+        }
+
+
+        .format-box {
+
+            padding: 20px;
+
+            background:
+                var(--card-secondary);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 15px;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+        }
+
+
+        .format-box:hover {
+
+            border-color:
+                #52596b;
+
+        }
+
+
+        .format-option
+        input:checked
+        +
+        .format-box {
+
+            border-color:
+                var(--primary);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(
+                        109,
+                        120,
+                        255,
+                        .15
+                    ),
+                    rgba(
+                        155,
+                        92,
+                        255,
+                        .08
+                    )
+                );
+
+            box-shadow:
+                0
+                0
+                0
+                2px
+                rgba(
+                    109,
+                    120,
+                    255,
+                    .08
+                );
+
+        }
+
+
+        .format-title {
+
+            display: block;
+
+            font-size: 18px;
+
+            font-weight: 900;
+
+        }
+
+
+        .format-description {
+
+            display: block;
+
+            margin-top: 5px;
+
+            color:
+                var(--muted);
+
+            font-size: 13px;
+
+        }
+
+
+        /* ==================================================
+           QUALITY
+        ================================================== */
+
+        .quality {
+
+            margin-top: 25px;
+
+        }
+
+
+        select {
+
+            width: 100%;
+
+            height: 53px;
+
+            padding:
+                0
+                15px;
+
+            color: white;
+
+            font-size: 15px;
+
+            background:
+                var(--card-secondary);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 13px;
+
+            outline: none;
+
+            cursor: pointer;
+
+        }
+
+
+        select:focus {
+
+            border-color:
+                var(--primary);
+
+        }
+
+
+        /* ==================================================
+           SIZE
+        ================================================== */
+
+        .size-box {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            margin-top: 18px;
+
+            padding:
+                14px
+                16px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .06
+                );
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .025
+                );
+
+        }
+
+
+        .size-label {
+
+            color:
+                var(--muted);
+
+            font-size: 13px;
+
+        }
+
+
+        .size-value {
+
+            font-weight: 800;
+
+            font-size: 14px;
+
+        }
+
+
+        /* ==================================================
+           DOWNLOAD BUTTON
+        ================================================== */
+
+        .download-button {
+
+            width: 100%;
+
+            height: 58px;
+
+            margin-top: 24px;
+
+            font-size: 16px;
+
+        }
+
+
+        .download-button:disabled {
+
+            opacity: .55;
+
+            cursor: wait;
+
+            transform: none;
+
+        }
+
+
+        /* ==================================================
+           PROGRESS
+        ================================================== */
+
+        .progress-container {
+
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .07
+                );
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .025
+                );
+
+        }
+
+
+        .progress-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .progress-status {
+
+            font-weight: 800;
+
+        }
+
+
+        .progress-percent {
+
+            color:
+                #aeb2ff;
+
+            font-weight: 900;
+
+        }
+
+
+        .progress-track {
+
+            height: 11px;
+
+            border-radius: 100px;
+
+            overflow: hidden;
+
+            background:
+                #252935;
+
+        }
+
+
+        .progress-bar {
+
+            width: 0%;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--primary-two)
+                );
+
+            transition:
+                width
+                .35s
+                ease;
+
+        }
+
+
+        .progress-info {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 15px;
+
+            margin-top: 12px;
+
+            color:
+                var(--muted);
+
+            font-size: 12px;
+
+        }
+
+
+        .progress-message {
+
+            margin-top: 11px;
+
+            color:
+                #a5abba;
+
+            font-size: 13px;
+
+        }
+
+
+        .download-error {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            color:
+                #ff9696;
+
+            background:
+                rgba(
+                    255,
+                    70,
+                    70,
+                    .10
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    70,
+                    70,
+                    .18
+                );
+
+        }
+
+
+        .note {
+
+            margin-top: 12px;
+
+            color:
+                #666d7e;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .page {
+
+                padding:
+                    32px
+                    14px;
+
+            }
+
+
+            .card {
+
+                padding: 20px;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .url-form {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .analyse-button {
+
+                width: 100%;
+
+            }
+
+
+            .video {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .format-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .progress-info {
+
+                flex-direction:
+                    column;
+
+                gap: 5px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+<div class="container">
+
+
+    <header class="header">
+
+        <div class="badge">
+
+            VIDEO • AUDIO • DOWNLOAD
+
+        </div>
+
+        <h1>
+            Video Downloader
+        </h1>
+
+        <p>
+            Analyse ta vidéo, choisis MP3 ou MP4,
+            sélectionne la qualité puis télécharge le fichier.
+        </p>
+
+    </header>
+
+
+    <main class="card">
+
+
+        <!-- =================================================
+             ANALYSE
+        ================================================== -->
+
+
+        <form
+            class="url-form"
+            method="POST"
+            action="/"
+        >
+
+            <input
+                class="url-input"
+                type="url"
+                name="url"
+                placeholder="Collez le lien YouTube..."
+                required
+            >
+
+            <button
+                class="analyse-button button-primary"
+                type="submit"
+            >
+                Analyser
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+            <div class="error">
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+
+        {% if video %}
+
+
+        <div class="result">
+
+
+            <!-- =================================================
+                 VIDEO
+            ================================================== -->
+
+
+            <section class="video">
+
+                <img
+                    class="thumbnail"
+                    src="{{ video.thumbnail }}"
+                    alt="Miniature vidéo"
+                >
+
+
+                <div>
+
+                    <h2 class="video-title">
+
+                        {{ video.title }}
+
+                    </h2>
+
+
+                    <div class="meta">
+
+                        <strong>
+                            Chaîne :
+                        </strong>
+
+                        {{ video.uploader }}
+
+                    </div>
+
+
+                    <div class="meta">
+
+                        <strong>
+                            Durée :
+                        </strong>
+
+                        {{ video.duration }}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div class="divider"></div>
+
+
+
+            <!-- =================================================
+                 FORM DOWNLOAD
+            ================================================== -->
+
+
+            <form
+                id="downloadForm"
+            >
+
+
+                <input
+                    type="hidden"
+                    name="url"
+                    value="{{ video.url }}"
+                >
+
+
+                <div class="section-title">
+
+                    Choisir le format
+
+                </div>
+
+
+                <div class="format-grid">
+
+
+                    <!-- MP3 -->
+
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format_type"
+                            value="mp3"
+                            checked
+                        >
+
+                        <div class="format-box">
+
+                            <span class="format-title">
+
+                                MP3
+
+                            </span>
+
+                            <span class="format-description">
+
+                                Audio uniquement
+
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- MP4 -->
+
+
+                    <label class="format-option">
+
+                        <input
+                            type="radio"
+                            name="format_type"
+                            value="mp4"
+                        >
+
+                        <div class="format-box">
+
+                            <span class="format-title">
+
+                                MP4
+
+                            </span>
+
+                            <span class="format-description">
+
+                                Vidéo + audio
+
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     AUDIO
+                ================================================== -->
+
+
+                <div
+                    id="audioOptions"
+                    class="quality"
+                >
+
+                    <div class="section-title">
+
+                        Qualité audio
+
+                    </div>
+
+
+                    <select
+                        id="audioQuality"
+                        name="audio_quality"
+                    >
+
+
+                        <option
+                            value="128"
+                            data-size="{{ video.audio_sizes['128'].size }}"
+                            data-size-label="{{ video.audio_sizes['128'].label }}"
+                        >
+
+                            128 kbps — Standard
+
+                        </option>
+
+
+                        <option
+                            value="192"
+                            selected
+                            data-size="{{ video.audio_sizes['192'].size }}"
+                            data-size-label="{{ video.audio_sizes['192'].label }}"
+                        >
+
+                            192 kbps — Bonne qualité
+
+                        </option>
+
+
+                        <option
+                            value="256"
+                            data-size="{{ video.audio_sizes['256'].size }}"
+                            data-size-label="{{ video.audio_sizes['256'].label }}"
+                        >
+
+                            256 kbps — Haute qualité
+
+                        </option>
+
+
+                        <option
+                            value="320"
+                            data-size="{{ video.audio_sizes['320'].size }}"
+                            data-size-label="{{ video.audio_sizes['320'].label }}"
+                        >
+
+                            320 kbps — Maximum
+
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     VIDEO
+                ================================================== -->
+
+
+                <div
+                    id="videoOptions"
+                    class="quality"
+                    style="display:none;"
+                >
+
+
+                    <div class="section-title">
+
+                        Qualité vidéo
+
+                    </div>
+
+
+                    <select
+                        id="videoQuality"
+                        name="video_quality"
+                    >
+
+
+                        {% for quality in video.video_qualities %}
+
+
+                            <option
+                                value="{{ quality.value }}"
+                                data-size="{{ quality.size }}"
+                                data-size-label="{{ quality.size_label }}"
+                            >
+
+                                {{ quality.label }}
+
+                            </option>
+
+
+                        {% endfor %}
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ESTIMATED SIZE
+                ================================================== -->
+
+
+                <div class="size-box">
+
+                    <span class="size-label">
+
+                        Taille estimée
+
+                    </span>
+
+                    <span
+                        class="size-value"
+                        id="estimatedSize"
+                    >
+
+                        Calcul...
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DOWNLOAD
+                ================================================== -->
+
+
+                <button
+                    id="downloadButton"
+                    class="download-button button-primary"
+                    type="submit"
+                >
+
+                    Télécharger
+
+                </button>
+
+
+                <div class="note">
+
+                    La taille affichée est une estimation.
+                    Le fichier final peut être légèrement différent.
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 PROGRESS
+            ================================================== -->
+
+
+            <div
+                id="progressContainer"
+                class="progress-container"
+            >
+
+
+                <div class="progress-header">
+
+                    <span
+                        id="progressStatus"
+                        class="progress-status"
+                    >
+
+                        Préparation...
+
+                    </span>
+
+
+                    <span
+                        id="progressPercent"
+                        class="progress-percent"
+                    >
+
+                        0%
+
+                    </span>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar"
+                    ></div>
+
+                </div>
+
+
+                <div class="progress-info">
+
+                    <span id="downloadedInfo">
+
+                        0 MB / -- MB
+
+                    </span>
+
+
+                    <span id="speedInfo">
+
+                        Vitesse : --
+
+                    </span>
+
+
+                    <span id="etaInfo">
+
+                        Temps restant : --
+
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="progressMessage"
+                    class="progress-message"
+                >
+
+                    Préparation du téléchargement...
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DOWNLOAD ERROR
+            ================================================== -->
+
+
+            <div
+                id="downloadError"
+                class="download-error"
+            ></div>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+// ==========================================================
+// ELEMENTS
+// ==========================================================
+
+const downloadForm =
+    document.getElementById(
+        "downloadForm"
+    );
+
+
+const audioOptions =
+    document.getElementById(
+        "audioOptions"
+    );
+
+
+const videoOptions =
+    document.getElementById(
+        "videoOptions"
+    );
+
+
+const audioQuality =
+    document.getElementById(
+        "audioQuality"
+    );
+
+
+const videoQuality =
+    document.getElementById(
+        "videoQuality"
+    );
+
+
+const estimatedSize =
+    document.getElementById(
+        "estimatedSize"
+    );
+
+
+const progressContainer =
+    document.getElementById(
+        "progressContainer"
+    );
+
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+
+const progressPercent =
+    document.getElementById(
+        "progressPercent"
+    );
+
+
+const progressStatus =
+    document.getElementById(
+        "progressStatus"
+    );
+
+
+const progressMessage =
+    document.getElementById(
+        "progressMessage"
+    );
+
+
+const downloadedInfo =
+    document.getElementById(
+        "downloadedInfo"
+    );
+
+
+const speedInfo =
+    document.getElementById(
+        "speedInfo"
+    );
+
+
+const etaInfo =
+    document.getElementById(
+        "etaInfo"
+    );
+
+
+const downloadButton =
+    document.getElementById(
+        "downloadButton"
+    );
+
+
+const downloadError =
+    document.getElementById(
+        "downloadError"
+    );
+
+
+
+// ==========================================================
+// FORMAT BYTES
+// ==========================================================
+
+function formatBytes(bytes) {
+
+    if (!bytes || bytes <= 0) {
+
+        return "--";
+
+    }
+
+
+    const units = [
+
+        "B",
+        "KB",
+        "MB",
+        "GB"
+
+    ];
+
+
+    let size = bytes;
+
+    let index = 0;
+
+
+    while (
+
+        size >= 1024
+
+        &&
+
+        index < units.length - 1
+
+    ) {
+
+        size /= 1024;
+
+        index++;
+
+    }
+
+
+    if (index === 0) {
+
+        return (
+            Math.round(size)
+            +
+            " "
+            +
+            units[index]
+        );
+
+    }
+
+
+    return (
+
+        size.toFixed(1)
+        +
+        " "
+        +
+        units[index]
+
+    );
+
+}
+
+
+
+// ==========================================================
+// ETA
+// ==========================================================
+
+function formatEta(seconds) {
+
+    if (
+        seconds === null
+        ||
+        seconds === undefined
+        ||
+        seconds < 0
+    ) {
+
+        return "--";
+
+    }
+
+
+    seconds =
+        Math.round(seconds);
+
+
+    if (seconds < 60) {
+
+        return seconds + " s";
+
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remaining =
+        seconds % 60;
+
+
+    return (
+        minutes
+        +
+        " min "
+        +
+        remaining
+        +
+        " s"
+    );
+
+}
+
+
+
+// ==========================================================
+// CURRENT FORMAT
+// ==========================================================
+
+function getSelectedFormat() {
+
+    const selected =
+        document.querySelector(
+
+            'input[name="format_type"]:checked'
+
+        );
+
+
+    return (
+        selected
+        ?
+        selected.value
+        :
+        "mp3"
+    );
+
+}
+
+
+
+// ==========================================================
+// UPDATE FORMAT UI
+// ==========================================================
+
+function updateFormatOptions() {
+
+    const format =
+        getSelectedFormat();
+
+
+    if (format === "mp3") {
+
+        audioOptions.style.display =
+            "block";
+
+        videoOptions.style.display =
+            "none";
+
+    }
+
+    else {
+
+        audioOptions.style.display =
+            "none";
+
+        videoOptions.style.display =
+            "block";
+
+    }
+
+
+    updateEstimatedSize();
+
+}
+
+
+
+// ==========================================================
+// SIZE ESTIMATE
+// ==========================================================
+
+function updateEstimatedSize() {
+
+    const format =
+        getSelectedFormat();
+
+
+    let option;
+
+
+    if (format === "mp3") {
+
+        option =
+            audioQuality
+            ?.options[
+                audioQuality.selectedIndex
+            ];
+
+    }
+
+    else {
+
+        option =
+            videoQuality
+            ?.options[
+                videoQuality.selectedIndex
+            ];
+
+    }
+
+
+    if (!option) {
+
+        estimatedSize.textContent =
+            "Taille inconnue";
+
+        return;
+
+    }
+
+
+    const label =
+        option.dataset.sizeLabel;
+
+
+    estimatedSize.textContent =
+        label
+        ||
+        "Taille inconnue";
+
+}
+
+
+
+// ==========================================================
+// FORMAT EVENTS
+// ==========================================================
+
+document
+.querySelectorAll(
+
+    'input[name="format_type"]'
+
+)
+.forEach(
+
+    element => {
+
+        element.addEventListener(
+
+            "change",
+
+            updateFormatOptions
+
+        );
+
+    }
+
+);
+
+
+if (audioQuality) {
+
+    audioQuality.addEventListener(
+
+        "change",
+
+        updateEstimatedSize
+
+    );
+
+}
+
+
+if (videoQuality) {
+
+    videoQuality.addEventListener(
+
+        "change",
+
+        updateEstimatedSize
+
+    );
+
+}
+
+
+
+// ==========================================================
+// UPDATE PROGRESS
+// ==========================================================
+
+function updateProgress(data) {
+
+    const percent = Number(
+
+        data.progress
+        ||
+        0
+
+    );
+
+
+    progressBar.style.width =
+        percent + "%";
+
+
+    progressPercent.textContent =
+        Math.round(percent)
+        +
+        "%";
+
+
+    progressStatus.textContent =
+
+        data.status === "ready"
+        ?
+        "Terminé"
+        :
+        data.status === "processing"
+        ?
+        "Traitement"
+        :
+        data.status === "downloading"
+        ?
+        "Téléchargement"
+        :
+        "Préparation";
+
+
+    progressMessage.textContent =
+
+        data.message
+        ||
+        "";
+
+
+    downloadedInfo.textContent =
+
+        formatBytes(
+            data.downloaded_bytes
+        )
+
+        +
+
+        " / "
+
+        +
+
+        formatBytes(
+            data.total_bytes
+        );
+
+
+    speedInfo.textContent =
+
+        "Vitesse : "
+
+        +
+
+        (
+            data.speed
+            ?
+            formatBytes(
+                data.speed
+            )
+            +
+            "/s"
+            :
+            "--"
+        );
+
+
+    etaInfo.textContent =
+
+        "Temps restant : "
+
+        +
+
+        formatEta(
+            data.eta
+        );
+
+}
+
+
+
+// ==========================================================
+// POLLING
+// ==========================================================
+
+async function pollProgress(
+    jobId
+) {
+
+    try {
+
+        const response =
+            await fetch(
+
+                "/progress/"
+                +
+                jobId
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error
+                ||
+                "Erreur de progression."
+
+            );
+
+        }
+
+
+        updateProgress(
+            data
+        );
+
+
+        // ==================================================
+        // READY
+        // ==================================================
+
+        if (data.status === "ready") {
+
+            progressBar.style.width =
+                "100%";
+
+
+            progressPercent.textContent =
+                "100%";
+
+
+            progressStatus.textContent =
+                "Terminé";
+
+
+            progressMessage.textContent =
+
+                "Le fichier est prêt. "
+                +
+                "Le téléchargement démarre...";
+
+
+            setTimeout(
+
+                () => {
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+
+                        "/download-file/"
+                        +
+                        jobId;
+
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    link.click();
+
+
+                    link.remove();
+
+                },
+
+                400
+
+            );
+
+
+            downloadButton.disabled =
+                false;
+
+
+            downloadButton.textContent =
+                "Télécharger de nouveau";
+
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // ERROR
+        // ==================================================
+
+        if (data.status === "error") {
+
+            downloadError.style.display =
+                "block";
+
+
+            downloadError.textContent =
+
+                data.error
+                ||
+                "Le téléchargement a échoué.";
+
+
+            downloadButton.disabled =
+                false;
+
+
+            downloadButton.textContent =
+                "Réessayer";
+
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // CONTINUE
+        // ==================================================
+
+        setTimeout(
+
+            () => {
+
+                pollProgress(
+                    jobId
+                );
+
+            },
+
+            700
+
+        );
+
+    }
+
+    catch (error) {
+
+        downloadError.style.display =
+            "block";
+
+
+        downloadError.textContent =
+            error.message;
+
+
+        downloadButton.disabled =
+            false;
+
+
+        downloadButton.textContent =
+            "Réessayer";
+
+    }
+
+}
+
+
+
+// ==========================================================
+// START DOWNLOAD
+// ==========================================================
+
+if (downloadForm) {
+
+
+    downloadForm.addEventListener(
+
+        "submit",
+
+        async event => {
+
+
+            event.preventDefault();
+
+
+            downloadError.style.display =
+                "none";
+
+
+            downloadError.textContent =
+                "";
+
+
+            progressContainer.style.display =
+                "block";
+
+
+            progressBar.style.width =
+                "0%";
+
+
+            progressPercent.textContent =
+                "0%";
+
+
+            progressStatus.textContent =
+                "Préparation";
+
+
+            progressMessage.textContent =
+
+                "Démarrage du téléchargement...";
+
+
+            downloadedInfo.textContent =
+                "0 MB / --";
+
+
+            speedInfo.textContent =
+                "Vitesse : --";
+
+
+            etaInfo.textContent =
+                "Temps restant : --";
+
+
+            downloadButton.disabled =
+                true;
+
+
+            downloadButton.textContent =
+                "Téléchargement...";
+
+
+            try {
+
+
+                const formData =
+                    new FormData(
+                        downloadForm
+                    );
+
+
+                const response =
+                    await fetch(
+
+                        "/start-download",
+
+                        {
+
+                            method:
+                                "POST",
+
+                            body:
+                                formData
+
+                        }
+
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        data.error
+                        ||
+                        "Impossible de démarrer le téléchargement."
+
+                    );
+
+                }
+
+
+                pollProgress(
+                    data.job_id
+                );
+
+
+            }
+
+            catch (error) {
+
+
+                downloadError.style.display =
+                    "block";
+
+
+                downloadError.textContent =
+                    error.message;
+
+
+                downloadButton.disabled =
+                    false;
+
+
+                downloadButton.textContent =
+                    "Réessayer";
+
+            }
+
+        }
+
+    );
+
+}
+
+
+
+// ==========================================================
+// INITIALIZATION
+// ==========================================================
+
+if (downloadForm) {
+
+    updateFormatOptions();
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

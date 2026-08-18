@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Video Downloader
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="popup.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header>
+
+        <div class="logo">
+            VD
+        </div>
+
+
+        <div class="header-info">
+
+            <h1>
+                Video Downloader
+            </h1>
+
+            <div
+                id="serverStatus"
+                class="server checking"
+            >
+                Vérification du serveur...
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         URL
+    ====================================================== -->
+
+    <section class="url-section">
+
+
+        <input
+            id="videoUrl"
+            type="url"
+            placeholder="Collez un lien YouTube..."
+        >
+
+
+        <button
+            id="analyseButton"
+            class="primary"
+            type="button"
+        >
+            Analyser
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ERREURS
+    ====================================================== -->
+
+    <div
+        id="errorBox"
+        class="error"
+    ></div>
+
+
+
+    <!-- =====================================================
+         RESULTAT VIDEO
+    ====================================================== -->
+
+    <section
+        id="videoResult"
+        class="video-result"
+    >
+
+
+        <!-- MINIATURE -->
+
+        <img
+            id="thumbnail"
+            alt="Miniature vidéo"
+        >
+
+
+
+        <!-- TITRE -->
+
+        <h2
+            id="videoTitle"
+        >
+        </h2>
+
+
+
+        <!-- INFOS -->
+
+        <div class="meta">
+
+            <span
+                id="videoChannel"
+            >
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span
+                id="videoDuration"
+            >
+            </span>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FORMAT
+        ================================================== -->
+
+        <div class="label">
+
+            Format
+
+        </div>
+
+
+
+        <div class="format-grid">
+
+
+            <!-- MP3 -->
+
+            <label
+                class="format-card"
+            >
+
+                <input
+                    type="radio"
+                    name="format"
+                    value="mp3"
+                    checked
+                >
+
+
+                <div>
+
+                    <strong>
+                        MP3
+                    </strong>
+
+                    <span>
+                        Audio uniquement
+                    </span>
+
+                </div>
+
+            </label>
+
+
+
+            <!-- MP4 -->
+
+            <label
+                class="format-card"
+            >
+
+                <input
+                    type="radio"
+                    name="format"
+                    value="mp4"
+                >
+
+
+                <div>
+
+                    <strong>
+                        MP4
+                    </strong>
+
+                    <span>
+                        Vidéo + Audio
+                    </span>
+
+                </div>
+
+            </label>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUALITE AUDIO
+        ================================================== -->
+
+        <div
+            id="audioOptions"
+            class="quality"
+        >
+
+            <div class="label">
+
+                Qualité audio
+
+            </div>
+
+
+            <select
+                id="audioQuality"
+            >
+            </select>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUALITE VIDEO
+        ================================================== -->
+
+        <div
+            id="videoOptions"
+            class="quality hidden"
+        >
+
+            <div class="label">
+
+                Qualité vidéo
+
+            </div>
+
+
+            <select
+                id="videoQuality"
+            >
+            </select>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TAILLE ESTIMEE
+        ================================================== -->
+
+        <div class="size">
+
+            <span>
+
+                Taille estimée
+
+            </span>
+
+
+            <strong
+                id="estimatedSize"
+            >
+                --
+            </strong>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BOUTON TELECHARGER
+        ================================================== -->
+
+        <button
+            id="downloadButton"
+            class="primary download"
+            type="button"
+        >
+
+            Télécharger
+
+        </button>
+
+
+
+        <!-- =================================================
+             PROGRESSION
+        ================================================== -->
+
+        <div
+            id="progressContainer"
+            class="progress-container"
+        >
+
+
+            <div class="progress-top">
+
+
+                <span
+                    id="progressStatus"
+                >
+                    Préparation
+                </span>
+
+
+                <strong
+                    id="progressPercent"
+                >
+                    0%
+                </strong>
+
+
+            </div>
+
+
+
+            <div class="progress-track">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                >
+                </div>
+
+            </div>
+
+
+
+            <div class="stats">
+
+
+                <span
+                    id="sizeProgress"
+                >
+                    -- / --
+                </span>
+
+
+                <span
+                    id="speedProgress"
+                >
+                    --
+                </span>
+
+
+                <span
+                    id="etaProgress"
+                >
+                    --
+                </span>
+
+
+            </div>
+
+
+
+            <div
+                id="progressMessage"
+                class="message"
+            >
+
+                Préparation...
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+<script src="popup.js"></script>
+
+
+</body>
+
+</html>

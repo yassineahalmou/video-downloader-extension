@@ -1,0 +1,749 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 420px;
+    min-height: 520px;
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(104, 89, 255, 0.25),
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at top right,
+            rgba(155, 80, 255, 0.18),
+            transparent 38%
+        ),
+        #090b10;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   APPLICATION
+========================================================= */
+
+.app {
+    padding: 20px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6673ff,
+            #9d5cff
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(105, 111, 255, 0.35);
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.header-info {
+    min-width: 0;
+}
+
+h1 {
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.2;
+
+    letter-spacing: -0.3px;
+}
+
+.server {
+    margin-top: 5px;
+
+    font-size: 11px;
+}
+
+.server.checking {
+    color: #8f96a8;
+}
+
+.server.online {
+    color: #65dda5;
+}
+
+.server.offline {
+    color: #ff7d7d;
+}
+
+
+/* =========================================================
+   URL SECTION
+========================================================= */
+
+.url-section {
+    display: flex;
+
+    gap: 8px;
+}
+
+#videoUrl {
+    min-width: 0;
+    flex: 1;
+
+    height: 46px;
+
+    padding:
+        0
+        13px;
+
+    border:
+        1px solid
+        #303542;
+
+    border-radius: 12px;
+
+    background:
+        #151821;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+#videoUrl::placeholder {
+    color: #686f7f;
+}
+
+#videoUrl:focus {
+    border-color: #737dff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(115, 125, 255, 0.10);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    border: none;
+
+    font-family: inherit;
+
+    cursor: pointer;
+}
+
+.primary {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6875ff,
+            #9a5cff
+        );
+
+    box-shadow:
+        0 8px 24px
+        rgba(103, 115, 255, 0.20);
+
+    transition:
+        transform 0.2s,
+        opacity 0.2s,
+        box-shadow 0.2s;
+}
+
+.primary:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 28px
+        rgba(103, 115, 255, 0.30);
+}
+
+.primary:active {
+    transform:
+        translateY(0);
+}
+
+.primary:disabled {
+    opacity: 0.55;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+#analyseButton {
+    min-width: 92px;
+
+    height: 46px;
+
+    padding:
+        0
+        14px;
+
+    border-radius: 12px;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+    display: none;
+
+    margin-top: 13px;
+
+    padding:
+        11px
+        12px;
+
+    border:
+        1px solid
+        rgba(255, 82, 82, 0.20);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255, 65, 65, 0.10);
+
+    color: #ff9a9a;
+
+    font-size: 11px;
+    line-height: 1.45;
+
+    animation:
+        fadeIn 0.25s ease;
+}
+
+
+/* =========================================================
+   VIDEO RESULT
+========================================================= */
+
+.video-result {
+    display: none;
+
+    margin-top: 18px;
+
+    animation:
+        fadeUp 0.3s ease;
+}
+
+#thumbnail {
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    object-fit: cover;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    border-radius: 15px;
+
+    background: #151821;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.28);
+}
+
+#videoTitle {
+    margin:
+        13px
+        0
+        7px;
+
+    font-size: 16px;
+    line-height: 1.35;
+
+    letter-spacing: -0.2px;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #8c93a4;
+
+    font-size: 10px;
+
+    overflow: hidden;
+}
+
+#videoChannel {
+    max-width: 230px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.label {
+    margin-top: 19px;
+    margin-bottom: 8px;
+
+    color: #d4d7df;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   FORMAT CARDS
+========================================================= */
+
+.format-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 9px;
+}
+
+.format-card {
+    position: relative;
+
+    display: block;
+}
+
+.format-card input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.format-card div {
+    padding:
+        14px
+        13px;
+
+    border:
+        1px solid
+        #303542;
+
+    border-radius: 12px;
+
+    background:
+        #151821;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s,
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.format-card div:hover {
+    border-color: #4e5566;
+
+    transform:
+        translateY(-1px);
+}
+
+.format-card strong {
+    display: block;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.format-card span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #858c9e;
+
+    font-size: 10px;
+}
+
+.format-card
+input:checked
++
+div {
+    border-color: #737dff;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(105, 117, 255, 0.16),
+            rgba(154, 92, 255, 0.08)
+        );
+
+    box-shadow:
+        0 0 0 2px
+        rgba(115, 125, 255, 0.07);
+}
+
+.format-card
+input:checked
++
+div
+strong {
+    color: #a5aaff;
+}
+
+
+/* =========================================================
+   QUALITY
+========================================================= */
+
+.quality {
+    margin-top: 2px;
+}
+
+.hidden {
+    display: none;
+}
+
+select {
+    width: 100%;
+    height: 44px;
+
+    padding:
+        0
+        11px;
+
+    border:
+        1px solid
+        #303542;
+
+    border-radius: 11px;
+
+    background:
+        #151821;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #737dff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(115, 125, 255, 0.08);
+}
+
+
+/* =========================================================
+   ESTIMATED SIZE
+========================================================= */
+
+.size {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 15px;
+
+    padding:
+        12px
+        13px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    color: #9097a8;
+
+    font-size: 10px;
+}
+
+.size strong {
+    color: #ffffff;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   DOWNLOAD BUTTON
+========================================================= */
+
+.download {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 14px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-container {
+    display: none;
+
+    margin-top: 16px;
+
+    padding: 14px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    animation:
+        fadeIn 0.25s ease;
+}
+
+.progress-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    font-size: 10px;
+}
+
+#progressStatus {
+    color: #dadce4;
+
+    font-weight: 800;
+}
+
+#progressPercent {
+    color: #a9aeff;
+
+    font-size: 11px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 100px;
+
+    background: #252a35;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6875ff,
+            #9b5cff
+        );
+
+    box-shadow:
+        0 0 16px
+        rgba(107, 117, 255, 0.35);
+
+    transition:
+        width 0.35s ease;
+}
+
+
+/* =========================================================
+   PROGRESS STATS
+========================================================= */
+
+.stats {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 6px;
+
+    margin-top: 10px;
+
+    color: #858c9e;
+
+    font-size: 9px;
+}
+
+.stats span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.message {
+    margin-top: 9px;
+
+    color: #a6acbb;
+
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+
+    background: #333846;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #454b5d;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}

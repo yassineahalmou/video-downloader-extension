@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Video Downloader",
+  "version": "1.0.0",
+  "description": "Extension locale de téléchargement vidéo en MP3 ou MP4.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "downloads"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:5000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Video Downloader",
+    "default_popup": "popup.html"
+  }
+}
